@@ -51,18 +51,24 @@ function! s:get_all_jira_projects()
 endfunction
 
 function! s:jira_link_completion(linkstring, line, pos)
-        let s:links = s:get_all_jira_links()
 	let s:links_list = []
 
-	for [key, value] in items(s:links)
-		call add(s:links_list, key)
-	endfor
+	if s:jira_config_available() == 1
+		let s:links = s:get_all_jira_links()
+		for [key, value] in items(s:links)
+			call add(s:links_list, key)
+		endfor
+	endif
 
         return filter(s:links_list, 'v:val =~ "^'. a:linkstring .'"')
 endfunction
 
 function! s:jira_browse_completion(projectstring, line, pos)
-        let s:projects = s:get_all_jira_projects()
+	if s:jira_config_available() == 1
+		let s:projects = s:get_all_jira_projects()
+	else
+		let s:projects = []
+	endif
         return filter(s:projects, 'v:val =~ "^'. a:projectstring .'"')
 endfunction
 
@@ -76,27 +82,42 @@ function! s:exec_external_command(command)
         endif
 endfunction
 
+function! s:jira_config_available()
+	if s:file_exists(s:config_filename)
+		return 1
+	else
+		echom "Jira config not available"
+		return 0
+	endif
+endfunction
+
 function! jira#link(jira_link_key)
-        let config =  s:get_config()
-	let baseurl = config.baseurl
-	let links = config.links
-	let jira_link = links[a:jira_link_key]
-	let cmd = "xdg-open '" . baseurl . jira_link . "'"
-	call s:exec_external_command(cmd)
+	if s:jira_config_available() == 1
+		let config =  s:get_config()
+		let baseurl = config.baseurl
+		let links = config.links
+		let jira_link = links[a:jira_link_key]
+		let cmd = "xdg-open '" . baseurl . jira_link . "'"
+		call s:exec_external_command(cmd)
+	endif
 endfunction
 
 function! jira#browse(jira_issue_id)
-        let config =  s:get_config()
-	let baseurl = config.baseurl
-	let cmd = "xdg-open " . baseurl . "browse/" . a:jira_issue_id
-	call s:exec_external_command(cmd)
+	if s:jira_config_available() == 1
+		let config =  s:get_config()
+		let baseurl = config.baseurl
+		let cmd = "xdg-open " . baseurl . "browse/" . a:jira_issue_id
+		call s:exec_external_command(cmd)
+	endif
 endfunction
 
 function! jira#new()
-        let config =  s:get_config()
-	let baseurl = config.baseurl
-	let cmd = "xdg-open " . baseurl . "secure/CreateIssue!default.jspa"
-	call s:exec_external_command(cmd)
+	if s:jira_config_available() == 1
+		let config =  s:get_config()
+		let baseurl = config.baseurl
+		let cmd = "xdg-open " . baseurl . "secure/CreateIssue!default.jspa"
+		call s:exec_external_command(cmd)
+	endif
 endfunction
 
 command! JiraNew call jira#new()

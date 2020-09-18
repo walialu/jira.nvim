@@ -6,7 +6,8 @@ A Neovim plugin to make browsing Jira more pleasant.
 ## Usage
 
  - `:JiraBrowse OE-1337` to open up a browser with the issue.
- - `:JiraLinks OE-Backlog` to open up a browser with a Jira link.
+ - `:JiraLink OE-Backlog` to open up a browser with a Jira link.
+ - `:JiraNew` to open up a browser with a new Jira issue.
 
 
 .jira.json

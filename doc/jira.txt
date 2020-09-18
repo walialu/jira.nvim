@@ -1,0 +1,33 @@
+*jira.txt*  A Neovim plugin to help with Jira.
+
+Author:  Marco Kellershoff <https://about.walialu.com/>
+License: MIT License (see |license|)
+
+INTRODUCTION                                    *jira*
+
+This plugin's main purpose is to make working with Jira more pleasant.
+
+
+COMMANDS                                        *editanywhere-commands*
+
+Jira					      *:JiraBrowse*
+
+        Open a Jira issue in a browser.
+
+					      *:JiraLink*
+
+        Open a Jira link in a browser.
+
+
+MAPPINGS                                        *jira-mappings*
+
+There are no mappings registered by the plugin.
+You need to map it according to your preference.
+
+ABOUT                                           *jira-about*
+
+Grab the latest version or report a bug:
+
+http://github.com/walialu/jira.nvim
+
+ vim:tw=78:et:ft=help:norl:

@@ -1,0 +1,8 @@
+{
+  "baseurl": "https://jira.hadcs.de/",
+  "projects": ["OE", "ADM", "SDPSD"],
+  "links": {
+    "OE-Kanban-Board": "secure/RapidBoard.jspa?projectKey=OE&rapidView=1912",
+    "OE-Backlog": "secure/RapidBoard.jspa?rapidView=1912&projectKey=OE&view=planning.nodetail&issueLimit=100"
+  }
+}

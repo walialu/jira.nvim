@@ -64,12 +64,14 @@ function! s:jira_link_completion(linkstring, line, pos)
 endfunction
 
 function! s:jira_browse_completion(projectstring, line, pos)
+	let s:projects_list = []
 	if s:jira_config_available() == 1
 		let s:projects = s:get_all_jira_projects()
-	else
-		let s:projects = []
+		for project in s:projects
+			call add(s:projects_list, project . '-')
+		endfor
 	endif
-        return filter(s:projects, 'v:val =~ "^'. a:projectstring .'"')
+        return filter(s:projects_list, 'v:val =~ "^'. a:projectstring .'"')
 endfunction
 
 function! s:exec_external_command(command)

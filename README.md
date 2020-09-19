@@ -9,8 +9,12 @@ A Neovim plugin to make browsing Jira more pleasant.
  - `:JiraLink OE-Backlog` to open up a browser with a Jira link.
  - `:JiraNew` to open up a browser with a new Jira issue.
 
+`JiraBrowse` and `JiraLink` can be auto-completed via `<tab>`-presses.
 
-.jira.json
+## Configuration file
+
+Put a `.jira.json` in the root of your project.
+
 ```json
 {
 	"baseurl": "https://jira.hadcs.de/",

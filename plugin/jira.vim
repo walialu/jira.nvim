@@ -93,12 +93,22 @@ function! s:jira_config_available()
 	endif
 endfunction
 
-function! jira#link(jira_link_key)
+function! jira#link(...)
 	if s:jira_config_available() == 1
+		let s:jira_link_key = ""
+		let s:index = 0
+		for jira_link_key_seg in a:000
+			if s:index != 0
+				let s:jira_link_key = s:jira_link_key . " "
+			endif
+			let s:jira_link_key = s:jira_link_key . jira_link_key_seg
+			let s:index += 1
+		endfor
+
 		let config =  s:get_config()
 		let baseurl = config.baseurl
 		let links = config.links
-		let jira_link = links[a:jira_link_key]
+		let jira_link = links[s:jira_link_key]
 		let cmd = "xdg-open '" . baseurl . jira_link . "'"
 		call s:exec_external_command(cmd)
 	endif

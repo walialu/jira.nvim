@@ -22,10 +22,11 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 ## Usage
 
  - `:JiraBrowse OE-1337` to open up a browser with the issue.
- - `:JiraLink OE-Backlog` to open up a browser with a Jira link.
+ - `:JiraLink` to open up a modal window with fuzzy search for links.
  - `:JiraNew` to open up a browser with a new Jira issue.
+ - `:JiraOpen` to open up a browser with the base Jira URL.
 
-`JiraBrowse` and `JiraLink` can be auto-completed via `<tab>`-presses.
+`JiraBrowse` can be auto-completed via `<tab>`-presses.
 
 ## Configuration file
 

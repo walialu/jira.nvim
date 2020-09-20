@@ -93,27 +93,6 @@ function! s:jira_config_available()
 	endif
 endfunction
 
-function! jira#link(...)
-	if s:jira_config_available() == 1
-		let s:jira_link_key = ""
-		let s:index = 0
-		for jira_link_key_seg in a:000
-			if s:index != 0
-				let s:jira_link_key = s:jira_link_key . " "
-			endif
-			let s:jira_link_key = s:jira_link_key . jira_link_key_seg
-			let s:index += 1
-		endfor
-
-		let config =  s:get_config()
-		let baseurl = config.baseurl
-		let links = config.links
-		let jira_link = links[s:jira_link_key]
-		let cmd = "xdg-open '" . baseurl . jira_link . "'"
-		call s:exec_external_command(cmd)
-	endif
-endfunction
-
 function! jira#browse(jira_issue_id)
 	if s:jira_config_available() == 1
 		let config =  s:get_config()
@@ -132,7 +111,50 @@ function! jira#new()
 	endif
 endfunction
 
+function! jira#open()
+	if s:jira_config_available() == 1
+		let config =  s:get_config()
+		let baseurl = config.baseurl
+		let cmd = "xdg-open '" . baseurl . "'"
+		call s:exec_external_command(cmd)
+	endif
+endfunction
+
+function! s:fzf_format_link_list_item(item) abort
+	return a:item
+endfunction
+
+function! s:fzf_link_list_handler(item) abort
+	let config =  s:get_config()
+	let baseurl = config.baseurl
+	let links = config.links
+	let link = links[a:item]
+	let cmd = "xdg-open '" . baseurl . link . "'"
+	call s:exec_external_command(cmd)
+endfunction
+
+function! s:get_link_list()
+	let s:list = []
+	let s:config =  s:get_config()
+	let s:links = s:config.links
+	for [key, _] in items(s:links)
+		call add(s:list, key)
+	endfor
+        return s:list
+endfunction
+
+function! jira#link()
+	if s:jira_config_available() == 1
+		call fzf#run(fzf#wrap({
+					\ 'source': map(s:get_link_list(), 's:fzf_format_link_list_item(v:val)'),
+					\ 'sink': function('s:fzf_link_list_handler'),
+					\ 'options': printf('--prompt="%s> "', ('JiraLink'))
+					\ }))
+	endif
+endfunction
+
+command! JiraOpen call jira#open()
 command! JiraNew call jira#new()
+command! JiraLink call jira#link()
 command! -bang -complete=customlist,s:jira_browse_completion -nargs=* JiraBrowse call jira#browse(<f-args>)
-command! -bang -complete=customlist,s:jira_link_completion -nargs=* JiraLink call jira#link(<f-args>)
 

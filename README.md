@@ -3,6 +3,22 @@ jira.nvim
 
 A Neovim plugin to make browsing Jira more pleasant.
 
+## Installation
+
+Via [vim-plug](https://github.com/junegunn/vim-plug):
+
+```text
+Plug 'walialu/jira.nvim'
+```
+
+### Requirements
+
+[fzf](https://github.com/junegunn/fzf), also installable via `vim-plug`:
+
+```text
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+```
+
 ## Usage
 
  - `:JiraBrowse OE-1337` to open up a browser with the issue.
